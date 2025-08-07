@@ -1,1 +1,0 @@
-# terraform-aws-wrapper-identity-center
