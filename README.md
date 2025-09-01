@@ -1,0 +1,165 @@
+# Standard Platform - Terraform Module 🚀🚀
+<p align="right"><a href="https://partners.amazonaws.com/partners/0018a00001hHve4AAC/GoCloud"><img src="https://img.shields.io/badge/AWS%20Partner-Advanced-orange?style=for-the-badge&logo=amazonaws&logoColor=white" alt="AWS Partner"/></a><a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-green?style=for-the-badge&logo=apache&logoColor=white" alt="LICENSE"/></a></p>
+
+Welcome to the Standard Platform — a suite of reusable and production-ready Terraform modules purpose-built for AWS environments.
+Each module encapsulates best practices, security configurations, and sensible defaults to simplify and standardize infrastructure provisioning across projects.
+
+## 📦 Module: Nota importante!
+<p align="right"><a href="https://github.com/gocloudLa/terraform-aws-wrapper-identity-center/releases/latest"><img src="https://img.shields.io/github/v/release/gocloudLa/terraform-aws-wrapper-identity-center.svg?style=for-the-badge" alt="Latest Release"/></a><a href=""><img src="https://img.shields.io/github/last-commit/gocloudLa/terraform-aws-wrapper-identity-center.svg?style=for-the-badge" alt="Last Commit"/></a><a href="https://registry.terraform.io/modules/gocloudLa/wrapper-identity-center/aws"><img src="https://img.shields.io/badge/Terraform-Registry-7B42BC?style=for-the-badge&logo=terraform&logoColor=white" alt="Terraform Registry"/></a></p>
+The Terraform Wrapper for Identity Center.
+
+### ✨ Features
+
+
+
+
+## 🚀 Quick Start
+```hcl
+identity_center_parameters = {
+    enable_identity_center = true
+
+    identity_users = {
+      "${local.metadata.key.company}-user1" = {
+        display_name = "Nombre Apellido"
+        optional     = {}
+        name = {
+          given_name  = "Nombre"
+          family_name = "Apellido"
+        }
+        emails = {
+          primary = true
+          value   = "user@domain.com"
+        }
+        addresses     = {}
+        phone_numbers = {}
+      }
+    }
+
+    identity_groups = {
+      "CloudAdministrator" = {
+        description = "This group is for users that will have Administrator Access to the different accounts in the Organization"
+        users = [
+          "${local.metadata.key.company}-user1"
+        ]
+      }
+      "CloudEngineer" = {
+        description = "This group is for users that will have Developer access in the different accounts and Administrator Access in the Workload accounts"
+        users = [
+        ]
+      }
+    }
+
+    external_identity_groups = [
+      "ExternalGroup1"
+    ]
+
+    identity_permission_sets = {
+      "Admin" = {
+        aws_managed_policies = [
+          "arn:aws:iam::aws:policy/AdministratorAccess",
+          "arn:aws:iam::aws:policy/job-function/Billing"
+        ]
+        description      = "Administrator and Billing permission Set"
+        relay_state      = null
+        session_duration = "PT8H"
+      }
+      "ReadOnly" = {
+        inline_policies = {
+          "S3List" = {
+            effect = "Allow",
+            actions = [
+              "s3:ListBucket",
+              "s3:ListAllMyBuckets"
+            ],
+            resources = [
+              "*"
+            ]
+          },
+          "S3" = {
+            effect = "Allow",
+            actions = [
+              "s3:GetObject",
+              "s3:PutObject",
+              "s3:DeleteObject",
+              "s3:GetObjectVersion",
+              "s3:GetBucketPolicy",
+              "s3:GetBucketAcl",
+              "s3:GetBucketVersioning",
+              "s3:GetLifecycleConfiguration"
+            ],
+            resources = [
+              "arn:aws:s3:::*",
+              "arn:aws:s3:::*/*",
+            ]
+          }
+        }
+        aws_managed_policies = [
+          "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+          "arn:aws:iam::aws:policy/AmazonEC2ReadOnlyAccess",
+          "arn:aws:iam::aws:policy/AmazonSQSReadOnlyAccess",
+          "arn:aws:iam::aws:policy/CloudWatchReadOnlyAccess",
+          "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess",
+          "arn:aws:iam::aws:policy/AWSLambda_ReadOnlyAccess"
+        ]
+        description      = "EC2, SQS and Cloudwatch Read Only permission Set + S3 Read/Write"
+        relay_state      = "https://us-east-2.console.aws.amazon.com/cloudwatch/"
+        session_duration = "PT8H"
+      }
+    }
+
+    identity_target_accounts = {
+      # ROOT
+      "${local.metadata.public_domain}" = {
+        "CloudAdministrator" = {
+          permission_set = "Admin"
+        }
+        "CloudEngineer" = {
+          permission_set = "ReadOnly"
+        }
+      }
+      # NEW
+      "${local.metadata.public_domain}-dev" = {
+        "CloudAdministrator" = {
+          permission_set = "Admin"
+        }
+        "CloudEngineer" = {
+          permission_set = "Admin"
+        }
+        "ExternalGroup1" = {
+          permission_set = "Admin"
+        }
+      }
+    }
+  }
+```
+
+
+## 🔧 Additional Features Usage
+
+
+
+
+
+
+
+
+
+
+---
+
+## 🤝 Contributing
+We welcome contributions! Please see our contributing guidelines for more details.
+
+## 🆘 Support
+- 📧 **Email**: info@gocloud.la
+- 🐛 **Issues**: [GitHub Issues](https://github.com/gocloudLa/issues)
+
+## 🧑‍💻 About
+We are focused on Cloud Engineering, DevOps, and Infrastructure as Code.
+We specialize in helping companies design, implement, and operate secure and scalable cloud-native platforms.
+- 🌎 [www.gocloud.la](https://www.gocloud.la)
+- ☁️ AWS Advanced Partner (Terraform, DevOps, GenAI)
+- 📫 Contact: info@gocloud.la
+
+## 📄 License
+This project is licensed under the Apache 2.0 License - see the [LICENSE](LICENSE) file for details. 
