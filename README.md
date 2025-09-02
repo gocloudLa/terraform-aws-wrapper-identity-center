@@ -138,6 +138,16 @@ identity_center_parameters = {
 
 
 
+## 📑 Inputs
+| Name                     | Description                                                                       | Type   | Default | Required |
+| ------------------------ | --------------------------------------------------------------------------------- | ------ | ------- | -------- |
+| enable_identity_center   | Enables or disables the organization service                                      | `bool` | `false` | no       |
+| identity_groups          | A list of principal services that will be enabled at an organization level        | `any`  | `{}`    | no       |
+| identity_users           | A list of principal services that will be enabled at an organization level        | `any`  | `{}`    | no       |
+| identity_permission_sets | A list of principal services that will be enabled at an organization level        | `any`  | `{}`    | no       |
+| identity_target_accounts | To be defined later                                                               | `any`  | `{}`    | no       |
+| organization_account_ids | A map of accounts that will be created under an organization or Organization Unit | `any`  | `{}`    | no       |
+
 
 
 
