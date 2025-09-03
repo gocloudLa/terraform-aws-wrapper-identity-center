@@ -1,5 +1,5 @@
-module_name: Nota importante!
-module_description: The Terraform Wrapper for Identity Center.
+module_name: Terraform Identity Center Module
+module_description: The Terraform wrapper for Identity Center simplifies the configuration of AWS Identity Center in the AWS cloud. This wrapper functions as a predefined template, facilitating the creation and management of users, groups, permission sets, and account assignments by handling all the technical details.
 module_badges:
   - url: "https://github.com/gocloudLa/terraform-aws-wrapper-identity-center/releases/latest"
     image: "https://img.shields.io/github/v/release/gocloudLa/terraform-aws-wrapper-identity-center.svg?style=for-the-badge"
@@ -130,7 +130,8 @@ quick_start: |
     }
   ```
 features: []
-important_notes: ""
+important_notes: |
+ - **ℹ️ Enable Service:** The AWS Identity Center service must be enabled, before using the module
 input_table: |
   | enable_identity_center | Enables or disables the organization service | `bool` | `false` | no |
   | identity_groups | A list of principal services that will be enabled at an organization level | `any` | `{}` | no |
