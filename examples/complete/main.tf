@@ -104,7 +104,7 @@ module "wrapper_identity_center" {
 
     identity_target_accounts = {
       # ROOT
-      # ${local.metadata.public_domain} --> Genérico
+      # ${local.metadata.public_domain} --> Generic
       "sample-root" = {
         "CloudAdministrator" = {
           permission_set = "Admin"
@@ -114,7 +114,7 @@ module "wrapper_identity_center" {
         }
       }
       # NEW
-      # ${local.metadata.public_domain} --> Genérico
+      # ${local.metadata.public_domain} --> Generic
       "sample-dev" = {
         "CloudAdministrator" = {
           permission_set = "Admin"
@@ -130,7 +130,7 @@ module "wrapper_identity_center" {
     }
   }
 
-  # Deberia venir como output del modulo de Organization que gestiona las cuentas.
+  # Should come as output from the Organization module that manages the accounts.
   # organization_account_ids = module.wrapper_organization.account_ids
   organization_account_ids = {
     "sample-root" = "111111111111"
