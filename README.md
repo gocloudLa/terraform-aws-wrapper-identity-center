@@ -4,9 +4,9 @@
 Welcome to the Standard Platform — a suite of reusable and production-ready Terraform modules purpose-built for AWS environments.
 Each module encapsulates best practices, security configurations, and sensible defaults to simplify and standardize infrastructure provisioning across projects.
 
-## 📦 Module: Nota importante!
+## 📦 Module: Terraform Identity Center Module
 <p align="right"><a href="https://github.com/gocloudLa/terraform-aws-wrapper-identity-center/releases/latest"><img src="https://img.shields.io/github/v/release/gocloudLa/terraform-aws-wrapper-identity-center.svg?style=for-the-badge" alt="Latest Release"/></a><a href=""><img src="https://img.shields.io/github/last-commit/gocloudLa/terraform-aws-wrapper-identity-center.svg?style=for-the-badge" alt="Last Commit"/></a><a href="https://registry.terraform.io/modules/gocloudLa/wrapper-identity-center/aws"><img src="https://img.shields.io/badge/Terraform-Registry-7B42BC?style=for-the-badge&logo=terraform&logoColor=white" alt="Terraform Registry"/></a></p>
-The Terraform Wrapper for Identity Center.
+The Terraform wrapper for Identity Center simplifies the configuration of AWS Identity Center in the AWS cloud. This wrapper functions as a predefined template, facilitating the creation and management of users, groups, permission sets, and account assignments by handling all the technical details.
 
 ### ✨ Features
 
@@ -152,6 +152,10 @@ identity_center_parameters = {
 
 
 
+
+
+## ⚠️ Important Notes
+- **ℹ️ Enable Service:** The AWS Identity Center service must be enabled, before using the module
 
 
 
