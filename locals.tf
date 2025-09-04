@@ -1,18 +1,4 @@
 locals {
-  metadata = var.metadata
-
-  common_name = join("-", [
-    local.metadata.key.company,
-    local.metadata.key.env
-  ])
-
-  common_tags = {
-    "company"     = local.metadata.key.company
-    "provisioner" = "terraform"
-    "environment" = local.metadata.environment
-    "created-by"  = "GoCloud.la"
-  }
-
   external_identity_groups_ids = tomap({
     for k, group in data.aws_identitystore_group.external : k => group.group_id
   })
