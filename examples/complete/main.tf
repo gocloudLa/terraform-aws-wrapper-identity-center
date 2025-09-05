@@ -8,11 +8,11 @@ module "wrapper_identity_center" {
 
     identity_users = {
       "${local.metadata.key.company}-user1" = {
-        display_name = "Nombre Apellido"
+        display_name = "FirstName LastName"
         optional     = {}
         name = {
-          given_name  = "Nombre"
-          family_name = "Apellido"
+          given_name  = "FirstName"
+          family_name = "LastName"
         }
         emails = {
           primary = true
