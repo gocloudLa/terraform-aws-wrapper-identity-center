@@ -10,6 +10,8 @@ The Terraform wrapper for Identity Center simplifies the configuration of AWS Id
 
 ### ✨ Features
 
+- 🔄 [SSO Sync](#sso-sync) - Synchronizes Google Workspace users and groups with AWS Identity Center using ssosync
+
 
 
 
@@ -136,17 +138,73 @@ identity_center_parameters = {
 
 ## 🔧 Additional Features Usage
 
+### SSO Sync
+Automatically synchronizes Google Workspace users and groups with AWS Identity Center using ssosync. This feature deploys a Lambda function that periodically syncs your Google Workspace directory with AWS Identity Center, keeping user and group memberships in sync. Supports configurable sync schedules, filtering options, and integration with AWS Secrets Manager for secure credential storage.
+
+
+<details><summary>Configuration Code</summary>
+
+```hcl
+identity_center_parameters = {
+  sso_sync = {
+    # General Configuration
+    enable_google_workspace = true
+    name_prefix            = "company"
+
+    # Google Workspace Configuration
+    google_workspace_domain = "company.com"
+    google_admin_email      = "admin@company.com"
+    google_service_account_key = jsonencode({
+      # Google Service Account JSON key
+    })
+
+    # SCIM Configuration
+    scim_endpoint_url = "https://scim.us-east-1.amazonaws.com/your-instance-id/scim/v2"
+    scim_access_token = "your-scim-access-token-from-aws-sso"
+
+    # Note: The module automatically creates Secrets Manager secrets for secure storage
+    # of credentials. If you prefer to use existing external secrets, you can reference
+    # them by providing the following ARNs instead:
+
+    # Optional: Use existing Secrets Manager ARNs instead of creating new secrets
+    # google_service_account_key_secretsmanager_arn = "arn:aws:secretsmanager:us-east-1:123456789012:secret:external/google-credentials"
+    # scim_access_token_secretsmanager_arn          = "arn:aws:secretsmanager:us-east-1:123456789012:secret:external/scim-token"
+    # google_admin_email_secretsmanager_arn         = "arn:aws:secretsmanager:us-east-1:123456789012:secret:external/admin-email"
+    # scim_endpoint_url_secretsmanager_arn          = "arn:aws:secretsmanager:us-east-1:123456789012:secret:external/scim-endpoint"
+    # region_secretsmanager_arn                     = "arn:aws:secretsmanager:us-east-1:123456789012:secret:external/region"
+    # identity_store_id_secretsmanager_arn          = "arn:aws:secretsmanager:us-east-1:123456789012:secret:external/identity-store-id"
+
+    # SSOSync Configuration
+    sync_schedule   = "rate(1 hour)"  # Sync every hour
+    sync_method     = "groups"        # or "users_groups"
+    log_level       = "info"
+    log_format      = "json"
+    group_match     = "name:AWS*"     # Only sync groups starting with "AWS"
+    user_match      = "*"             # Sync all users
+    ignore_users    = []
+    ignore_groups   = []
+    include_groups  = []
+    dry_run         = false           # Set to true for testing
+  }
+}
+```
+
+
+</details>
+
+
 
 
 ## 📑 Inputs
-| Name                     | Description                                                                       | Type   | Default | Required |
-| ------------------------ | --------------------------------------------------------------------------------- | ------ | ------- | -------- |
-| enable_identity_center   | Enables or disables the organization service                                      | `bool` | `false` | no       |
-| identity_groups          | A list of principal services that will be enabled at an organization level        | `any`  | `{}`    | no       |
-| identity_users           | A list of principal services that will be enabled at an organization level        | `any`  | `{}`    | no       |
-| identity_permission_sets | A list of principal services that will be enabled at an organization level        | `any`  | `{}`    | no       |
-| identity_target_accounts | To be defined later                                                               | `any`  | `{}`    | no       |
-| organization_account_ids | A map of accounts that will be created under an organization or Organization Unit | `any`  | `{}`    | no       |
+| Name                     | Description                                                                               | Type   | Default | Required |
+| ------------------------ | ----------------------------------------------------------------------------------------- | ------ | ------- | -------- |
+| enable_identity_center   | Enables or disables the organization service                                              | `bool` | `false` | no       |
+| identity_groups          | A list of principal services that will be enabled at an organization level                | `any`  | `{}`    | no       |
+| identity_users           | A list of principal services that will be enabled at an organization level                | `any`  | `{}`    | no       |
+| identity_permission_sets | A list of principal services that will be enabled at an organization level                | `any`  | `{}`    | no       |
+| identity_target_accounts | To be defined later                                                                       | `any`  | `{}`    | no       |
+| sso_sync                 | Configuration for Google Workspace synchronization with AWS Identity Center using ssosync | `any`  | `{}`    | no       |
+| organization_account_ids | A map of accounts that will be created under an organization or Organization Unit         | `any`  | `{}`    | no       |
 
 
 
@@ -156,6 +214,7 @@ identity_center_parameters = {
 
 ## ⚠️ Important Notes
 - **ℹ️ Enable Service:** The AWS Identity Center service must be enabled, before using the module
+- **ℹ️ SSO Sync Lambda Deployment:** It is normal for the ssosync Lambda function to attempt deployment multiple times during the initial setup. This occurs because the Lambda package is automatically downloaded from the internet and built, which may require multiple attempts to complete successfully.
 
 
 

@@ -15,6 +15,7 @@ The main purpose is to configure AWS Identity Center with specific users, groups
 - **Identity Groups**: Defines groups with descriptions and assigns users to them.
 - **Identity Permission Sets**: Sets up permission sets with managed policies and inline policies.
 - **Identity Target Accounts**: Maps groups to permission sets for different target accounts.
+- **SSO Sync**: Synchronizes Google Workspace users and groups with AWS Identity Center using ssosync, with configurable sync schedules, filters, and SCIM integration.
 
 ## 🚀 Quick Start
 
