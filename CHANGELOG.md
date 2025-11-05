@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/gocloudLa/terraform-aws-wrapper-identity-center/compare/v1.0.0...v1.1.0) (2025-11-05)
+
+
+### Features
+
+* **sso:** add google-workspace support ([#4](https://github.com/gocloudLa/terraform-aws-wrapper-identity-center/issues/4)) ([95e8ffd](https://github.com/gocloudLa/terraform-aws-wrapper-identity-center/commit/95e8ffd89fb77641a662da427449e60de076b8d9))
+
 ## 1.0.0 (2025-09-05)
 
 
