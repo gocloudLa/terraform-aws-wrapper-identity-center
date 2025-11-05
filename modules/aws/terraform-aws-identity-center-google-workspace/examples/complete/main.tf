@@ -4,11 +4,11 @@ module "google_workspace_integration" {
 
   # General Configuration
   enable_google_workspace = true
-  name_prefix            = "company"
+  name_prefix             = "company"
 
   # Google Workspace Configuration
-  google_workspace_domain   = "company.com"
-  google_admin_email        = "admin@company.com"
+  google_workspace_domain = "company.com"
+  google_admin_email      = "admin@company.com"
   google_service_account_key = jsonencode({
     # Provide a valid Google Service Account key JSON here
     # Example structure:

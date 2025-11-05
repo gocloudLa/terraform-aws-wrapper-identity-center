@@ -30,23 +30,23 @@ data "aws_partition" "current" {
 locals {
   # SSOSync version and download configuration
   ssosync_download_url = "https://github.com/awslabs/ssosync/releases/download/${var.ssosync_version}/ssosync_Linux_x86_64.tar.gz"
-  download_artifact     = "ssosync_Linux_x86_64.tar.gz"
+  download_artifact    = "ssosync_Linux_x86_64.tar.gz"
 
   # Secrets Manager ARN logic - use external ARNs if provided, otherwise use internal secrets
   google_credentials_arn = var.google_service_account_key_secretsmanager_arn != "" ? var.google_service_account_key_secretsmanager_arn : try(aws_secretsmanager_secret.google_credentials[0].arn, "")
-  scim_access_token_arn = var.scim_access_token_secretsmanager_arn != "" ? var.scim_access_token_secretsmanager_arn : try(aws_secretsmanager_secret.scim_access_token[0].arn, "")
-  google_admin_arn = var.google_admin_email_secretsmanager_arn != "" ? var.google_admin_email_secretsmanager_arn : try(aws_secretsmanager_secret.google_admin[0].arn, "")
-  scim_endpoint_arn = var.scim_endpoint_url_secretsmanager_arn != "" ? var.scim_endpoint_url_secretsmanager_arn : try(aws_secretsmanager_secret.scim_endpoint[0].arn, "")
-  region_arn = var.region_secretsmanager_arn != "" ? var.region_secretsmanager_arn : try(aws_secretsmanager_secret.region[0].arn, "")
-  identity_store_id_arn = var.identity_store_id_secretsmanager_arn != "" ? var.identity_store_id_secretsmanager_arn : try(aws_secretsmanager_secret.identity_store_id[0].arn, "")
-  
+  scim_access_token_arn  = var.scim_access_token_secretsmanager_arn != "" ? var.scim_access_token_secretsmanager_arn : try(aws_secretsmanager_secret.scim_access_token[0].arn, "")
+  google_admin_arn       = var.google_admin_email_secretsmanager_arn != "" ? var.google_admin_email_secretsmanager_arn : try(aws_secretsmanager_secret.google_admin[0].arn, "")
+  scim_endpoint_arn      = var.scim_endpoint_url_secretsmanager_arn != "" ? var.scim_endpoint_url_secretsmanager_arn : try(aws_secretsmanager_secret.scim_endpoint[0].arn, "")
+  region_arn             = var.region_secretsmanager_arn != "" ? var.region_secretsmanager_arn : try(aws_secretsmanager_secret.region[0].arn, "")
+  identity_store_id_arn  = var.identity_store_id_secretsmanager_arn != "" ? var.identity_store_id_secretsmanager_arn : try(aws_secretsmanager_secret.identity_store_id[0].arn, "")
+
   # Determine if we should create internal secrets (only if no external ARN provided)
   create_google_credentials_secret = var.google_service_account_key_secretsmanager_arn == ""
-  create_scim_access_token_secret = var.scim_access_token_secretsmanager_arn == ""
-  create_google_admin_secret = var.google_admin_email_secretsmanager_arn == ""
-  create_scim_endpoint_secret = var.scim_endpoint_url_secretsmanager_arn == ""
-  create_region_secret = var.region_secretsmanager_arn == ""
-  create_identity_store_id_secret = var.identity_store_id_secretsmanager_arn == ""
+  create_scim_access_token_secret  = var.scim_access_token_secretsmanager_arn == ""
+  create_google_admin_secret       = var.google_admin_email_secretsmanager_arn == ""
+  create_scim_endpoint_secret      = var.scim_endpoint_url_secretsmanager_arn == ""
+  create_region_secret             = var.region_secretsmanager_arn == ""
+  create_identity_store_id_secret  = var.identity_store_id_secretsmanager_arn == ""
 }
 
 # Download ssosync binary - using curl in local-exec instead of data.http
@@ -63,7 +63,7 @@ resource "null_resource" "download_artifact" {
   }
 
   triggers = {
-    version = var.ssosync_version
+    version   = var.ssosync_version
     file_hash = try(filemd5("${path.module}/tmp/${local.download_artifact}"), timestamp())
   }
 }
@@ -84,7 +84,7 @@ resource "null_resource" "extract_ssosync" {
   }
 
   triggers = {
-    version = var.ssosync_version
+    version   = var.ssosync_version
     file_hash = try(filemd5("${path.module}/tmp/dist/bootstrap"), timestamp())
   }
 
@@ -108,7 +108,7 @@ resource "null_resource" "create_lambda_package" {
   }
 
   triggers = {
-    version = var.ssosync_version
+    version   = var.ssosync_version
     file_hash = try(filemd5("${path.module}/tmp/bootstrap.zip"), timestamp())
   }
 
